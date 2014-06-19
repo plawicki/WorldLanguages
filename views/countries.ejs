@@ -7,8 +7,8 @@
         <script type="text/javascript">
             var dane = {};
 
-            dane["kraje"] = <%- kraje %>.kraje
-            dane["jezyki"] = <%- jezyki %>.jezyki
+            dane["kraje"] = <%- kraje %>.kraje || null
+            dane["jezyki"] = <%- jezyki %>.jezyki || null
 
         </script>
         <script src="/js/countries.js"></script>

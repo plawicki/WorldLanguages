@@ -81,6 +81,7 @@ app.configure('development', function () {
 app.get('/', routes.index);
 app.get('/countries', routes.countries);
 app.get('/groupedCountries', routes.groupedCountries);
+app.get(/^\/countries\/(\w+)?$/, routes.countryCode);
 
 http.createServer(app).listen(app.get('port'), function () {
     console.log("Serwer nasłuchuje na porcie " + app.get('port'));
