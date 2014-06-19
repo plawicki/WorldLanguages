@@ -50,6 +50,9 @@ var client = new pg.Client(aDBparams);
 client.connect();
 
 client.query("SELECT * FROM country", function(err, result) {
+
+    console.log("donwloading countries");
+
     if( result == undefined ){
         console.log("No results for the query");
     }else{
@@ -66,6 +69,8 @@ client.query("SELECT * FROM country", function(err, result) {
 });
 
 nextQuery = function(){
+
+    console.log("donwloading languages");
 
     client.query("SELECT * FROM countryLanguage", function(err, result) {
         if( result == undefined ){
@@ -86,6 +91,8 @@ nextQuery = function(){
 }
 
 setUpRouts = function(){
+
+    console.log("setting up routes");
 
     app.get('/', routes.index);
     app.get('/countries', routes.countries);
