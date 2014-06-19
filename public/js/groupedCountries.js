@@ -1,6 +1,7 @@
 $(function(){
 
 	var pogrupowaneJezyki = {};
+	var pogrupowaneJezykiTab = [];
 
 	var ludnoscSwiata = 0;
 
@@ -39,6 +40,27 @@ $(function(){
 		ludnoscSwiata += dane.kraje[i].population;
 
 	$.each(pogrupowaneJezyki, function(i, jezyk){
-		$('tbody').append('<tr><td>'+jezyk.langRef.language+'</td><td>'+jezyk.count+'</td><td>'+(jezyk.count/ludnoscSwiata).toFixed(2)+'</td></tr>');
+		pogrupowaneJezykiTab.push(jezyk);
 	})
+
+	// sortowanie po ilosci ludzi desc, nazwie jezyka asc
+	pogrupowaneJezykiTab.sort(function(a,b){
+
+		if(a.count != b.count)
+		{
+			if(a.count < b.count) return 1;
+			if(a.count > b.count) return -1;
+		}
+
+		if(a.langRef.language != b.langRef.language)
+		{
+			if (a.langRef.language < b.langRef.language) return -1;
+			if (a.langRef.language > b.langRef.language) return 1;
+			return 0;
+		}
+	});
+
+	$.each(pogrupowaneJezykiTab, function(i, jezyk){
+		$('tbody').append('<tr><td>'+jezyk.langRef.language+'</td><td>'+jezyk.count+'</td><td>'+(jezyk.count/ludnoscSwiata).toFixed(2)+'</td></tr>');
+	});
 });
