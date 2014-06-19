@@ -9,6 +9,8 @@ $(function(){
 		if(dane.kraje[i].code === dane["kod"])
 			mojKraj = dane.kraje[i];
 
+	$('h1').replaceWith('<h1>Language use in '+mojKraj.name+'</h1>');
+
 	// przyporzadkowanie jezykowi kraju
 	for(var j in dane.jezyki)
 		if(dane.jezyki[j].countrycode === dane["kod"])
