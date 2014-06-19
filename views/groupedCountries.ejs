@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>Countries and Languages</title>
+        <script src='jquery.min.js'></script>
+        <script type="text/javascript">
+            var dane = {};
+
+            dane["kraje"] = <%- kraje %>.kraje
+            dane["jezyki"] = <%- jezyki %>.jezyki
+
+        </script>
+        <script src="/js/groupedCountries.js"></script>
+    </head>
+    <body>
+        <div>
+            <h1>Countries and languages
+        </div>
+        <div> 
+            <a href="/countries">Countries</a>
+            <a href="/groupedCountries">Languages by Numbers</a>
+            <table>
+             <thead>
+              <tr>
+                 <th>Language</th>
+                 <th>Population Use</th>
+                 <th>Global Population % Use</th>
+              </tr>
+             </thead>
+             <tbody>
+              <tr>
+                 <td> </td>
+                 <td> </td>
+                 <td> </td>
+              </tr>
+             </tbody>
+            </table>
+        </div>
+    </body>
+</html>
