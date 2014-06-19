@@ -61,6 +61,6 @@ $(function(){
 	});
 
 	$.each(pogrupowaneJezykiTab, function(i, jezyk){
-		$('tbody').append('<tr><td>'+jezyk.langRef.language+'</td><td>'+jezyk.count+'</td><td>'+(jezyk.count/ludnoscSwiata).toFixed(2)+'</td></tr>');
+		$('tbody').append('<tr><td>'+jezyk.langRef.language+'</td><td>'+jezyk.count+'</td><td>'+((jezyk.count/ludnoscSwiata)*100).toFixed(2)+'</td></tr>');
 	});
 });
