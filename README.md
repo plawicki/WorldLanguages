@@ -6,4 +6,4 @@ to install:
   * bower install
 
 to run:
-  * node serwer.js
+  * npm start
