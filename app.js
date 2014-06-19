@@ -71,6 +71,8 @@ app.configure(function () {
     }));
     app.use(express.static(path.join(__dirname, 'public')));
     app.use(express.static(path.join(__dirname, 'bower_components/jquery/dist')));
+    app.use(express.static(path.join(__dirname, 'bower_components/d3')));
+    app.use(express.static(path.join(__dirname, 'bower_components/bootstrap-css')));
 });
 
 app.configure('development', function () {
