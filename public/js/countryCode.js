@@ -42,6 +42,12 @@ $(function(){
     if(dopelnienie > 0.1)
     	data.push({"label": "Others", value: dopelnienie});
 
+    data.sort(function(a,b){
+    	if(a.value > b.value) return -1;
+    	if(a.value < b.value) return 1;
+    	return 0;
+    })
+
 	piechart(data);
 
 	function piechart(d){
