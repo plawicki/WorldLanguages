@@ -39,7 +39,7 @@ $(function(){
 
     console.log(dopelnienie)
 
-    if(dopelnienie > 0.1)
+    if(dopelnienie > 0.09)
     	data.push({"label": "Others", value: dopelnienie});
 
     data.sort(function(a,b){
