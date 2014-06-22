@@ -27,11 +27,21 @@ $(function(){
  	
     data = [];
 
+    var suma = 0, dopelnienie = 100.0;
+
     for(var k in mojeJezyki)
     {
-    	data.push({"label": mojeJezyki[k].language, value: mojeJezyki[k].percentage*100});
+    	suma += mojeJezyki[k].percentage;
+    	data.push({"label": mojeJezyki[k].language, value: mojeJezyki[k].percentage});
     }
-    
+
+    dopelnienie -= suma;
+
+    console.log(dopelnienie)
+
+    if(dopelnienie > 0.1)
+    	data.push({"label": "Others", value: dopelnienie});
+
 	piechart(data);
 
 	function piechart(d){
@@ -81,7 +91,7 @@ $(function(){
 		}
 
         jQuery.each(d, function(i, val) {
-        	$('tbody').append("<tr><th><div class='legendColor' style='background: "+ color(i)  +"'></th><th>" + val.label + "</th><th>"+ val.value/100 +"</th></tr>");
+        	$('tbody').append("<tr><th><div class='legendColor' style='background: "+ color(i)  +"'></th><th>" + val.label + "</th><th>"+ val.value.toFixed(1) +"</th></tr>");
         });
     }
 })
