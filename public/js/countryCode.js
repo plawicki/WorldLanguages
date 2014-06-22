@@ -32,7 +32,7 @@ $(function(){
     	data.push({"label": mojeJezyki[k].language, value: mojeJezyki[k].percentage*100});
     }
     
-    var vis = d3.select("body")
+    var vis = d3.select(".svg")
         .append("svg:svg")              //create the SVG element inside the <body>
         .data([data])                   //associate our data with the document
             .attr("width", w)           //set the width and height of our visualization (these will be attributes of the <svg> tag

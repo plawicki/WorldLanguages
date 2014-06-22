@@ -5,6 +5,7 @@
         <title>Countries and Languages</title>
         <script src='/jquery.min.js'></script>
         <script src='/d3.min.js'></script>
+        <script src='/js/bootstrap.min.js'></script>
         <script type="text/javascript">
             var dane = {};
 
@@ -13,14 +14,21 @@
             dane["kod"] = "<%- kod %>" || null;
         </script>
         <script src="/js/countryCode.js"></script>
+        <link href="/css/bootstrap.min.css" rel="stylesheet" media="screen">
+        <link href="/css/center.css" rel="stylesheet" media="screen">
     </head>
     <body>
-        <div>
-            <h1>Language use in 
+        <div class="jumbotron">
+            <div class="container">
+                <h1>Language use in</h1>
+                <p>
+                    <a class="btn btn-primary btn-lg" role="button" href='/countries'>Countries</a>
+                    <a class="btn btn-primary btn-lg" role="button" href='/groupedCountries'>Languages by Numbers</a>
+                </p>
+            </div>
         </div>
-        <div> 
-            <a href="/countries">Countries</a>
-            <a href="/groupedCountries">Languages by Numbers</a>
+        <div class="container"> 
+            <div class="svg center"></div>
         </div>
     </body>
 </html>

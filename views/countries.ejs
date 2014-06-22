@@ -4,6 +4,7 @@
         <meta charset="utf-8">
         <title>Countries and Languages</title>
         <script src='jquery.min.js'></script>
+        <script src='js/bootstrap.min.js'></script>
         <script type="text/javascript">
             var dane = {};
 
@@ -12,15 +13,21 @@
 
         </script>
         <script src="/js/countries.js"></script>
+        <link href="css/bootstrap.min.css" rel="stylesheet" media="screen">
     </head>
     <body>
-        <div>
-            <h1>Countries and languages
+        <div class="jumbotron">
+            <div class="container">
+                <h1>Countries and languages
+                <p>
+                    <a class="btn btn-primary btn-lg" role="button" href='/countries'>Countries</a>
+                    <a class="btn btn-primary btn-lg" role="button" href='/groupedCountries'>Languages by Numbers</a>
+                </p>
+            </div>
         </div>
-        <div> 
-            <a href="/countries">Countries</a>
-            <a href="/groupedCountries">Languages by Numbers</a>
-            <table>
+
+        <div class="container"> 
+            <table class="table table-striped">
              <thead>
               <tr>
                  <th>Continent</th>
@@ -33,15 +40,7 @@
               </tr>
              </thead>
              <tbody>
-              <tr>
-                 <td> </td>
-                 <td> </td>
-                 <td> </td>
-                 <td> </td>
-                 <td> </td>
-                 <td> </td>
-                 <td> </td>
-              </tr>
+
              </tbody>
             </table>
         </div>
