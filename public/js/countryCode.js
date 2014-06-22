@@ -11,7 +11,7 @@ $(function(){
 
 	if(mojKraj)
 	{
-		$('h1').replaceWith('<h1>Language use in '+mojKraj.name+'</h1>');
+		$('h1').replaceWith('<h1 class="container myH">Language use in '+mojKraj.name+'</h1>');
 
 		// przyporzadkowanie jezykowi kraju
 		for(var j in dane.jezyki)
