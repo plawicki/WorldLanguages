@@ -66,8 +66,7 @@ $(function(){
 		arcs.append("path")
 		    .attr("fill", function(d, i) { return color(i); })
 		  .transition()
-		    .ease("bounce")
-		    .duration(2000)
+		    .duration(700)
 		    .attrTween("d", tweenPie)
 		  .transition()
 		    .ease("elastic")
@@ -80,8 +79,6 @@ $(function(){
 		  var i = d3.interpolate({startAngle: 0, endAngle: 0}, b);
 		  return function(t) { return arc(i(t)); };
 		}
-		        
-		var textcl = "";
 
         jQuery.each(d, function(i, val) {
         	$('tbody').append("<tr><th><div class='legendColor' style='background: "+ color(i)  +"'></th><th>" + val.label + "</th><th>"+ val.value/100 +"</th></tr>");
