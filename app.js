@@ -63,9 +63,10 @@ client.query("SELECT * FROM country", function(err, result) {
         }
 
         app.set('kraje', { kraje: kraje });
-        nextQuery();
+        
     }
     pg.end();
+    nextQuery();
 });
 
 nextQuery = function(){
@@ -83,9 +84,10 @@ nextQuery = function(){
             }
 
             app.set('jezyki', { jezyki: jezyki });
-            setUpRouts();
+            
         }
         pg.end();
+        setUpRouts();
     });
 
 }
