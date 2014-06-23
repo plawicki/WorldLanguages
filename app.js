@@ -88,6 +88,7 @@ nextQuery = function(){
         }
         pg.end();
         setUpRouts();
+        client.end();
     });
 
 }
