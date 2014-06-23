@@ -40,7 +40,7 @@ $(function(){
 	    dopelnienie -= suma;
 
 	    if(dopelnienie > 0.09)
-	    	data.push({"label": "Others", value: dopelnienie});
+	    	data.push({"label": "Other", value: dopelnienie});
 
 	    data.sort(function(a,b){
 	    	if(a.value > b.value) return -1;
