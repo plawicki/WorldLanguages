@@ -43,7 +43,7 @@ app.configure('development', function () {
 var kraje = [];
 var jezyki = [];
 
-var aDBparams = { host: 'ec2-54-225-101-124.compute-1.amazonaws.com', user: 'mmmwsvrkwfstit', password: 'vlliFqilBOUVyWVY-FZfV50Wa3', database: 'ddehqcgsacci3g',ssl: true };
+var aDBparams = { host: 'ec2-54-197-238-242.compute-1.amazonaws.com', user: 'msnyshehxzwduz', password: 'CZZpzn1J7DYG2cX_W3RyzlhSLp', database: 'd2oindia6bcueo',ssl: true };
  
 var client = new pg.Client(aDBparams);
  
