@@ -119,7 +119,8 @@ countriesSetting = function(){
 
     // kopiowanie referencji
     for(var i in jezyki)
-        countriesJezyki.push(jezyki[i]);
+        if(jezyki[i].isofficial === true)
+            countriesJezyki.push(jezyki[i]);
 
     // sortowanie po nazwie kontynentu asc, nazwie kraju asc, % desc
     countriesJezyki.sort(function(a,b){
