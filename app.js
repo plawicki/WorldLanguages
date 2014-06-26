@@ -61,7 +61,7 @@ client.connect();
 // downlad countries, download languages, setup data for countries, groupedCountries, countryCode
 // kod podzielony na funkcje, aby synchronizowac uruchamianie serwera, najpierw trzeba sciagnac dane i posortowac
 
-client.query("SELECT * FROM country", function(err, result) {
+client.query("SELECT code, name, continent, population FROM country", function(err, result) {
 
     console.log("donwloading countries");
 
