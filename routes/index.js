@@ -3,13 +3,21 @@ exports.index = function (req, res) {
 };
 
 exports.countries = function (req, res) {
-	res.render('countries', { kraje: JSON.stringify(req.app.get('kraje')), jezyki: JSON.stringify(req.app.get('jezyki'))});
+	res.render('countries', { dane: req.app.locals.countriesData });
 };
 
 exports.groupedCountries = function (req, res) {
-	res.render('groupedCountries', { kraje: JSON.stringify(req.app.get('kraje')), jezyki: JSON.stringify(req.app.get('jezyki'))});
+	res.render('groupedCountries', { dane: req.app.locals.groupedCountriesData });
 };
 
 exports.countryCode = function (req, res) {
-	res.render('countryCode', { kod: req.params[0], kraje: JSON.stringify(req.app.get('kraje')), jezyki: JSON.stringify(req.app.get('jezyki'))});
+
+	var result = "";
+
+	if(req.app.locals.countryCodeData[req.params[0]])
+		result = JSON.stringify(req.app.locals.countryCodeData[req.params[0]]);
+	else
+		result = JSON.stringify("notFound");
+
+	res.render('countryCode', { dane: result });
 }

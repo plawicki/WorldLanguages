@@ -6,12 +6,9 @@
         <script src='jquery.min.js'></script>
         <script src='js/bootstrap.min.js'></script>
         <script type="text/javascript">
-            var dane = {};
-
-            dane["kraje"] = <%- kraje %>.kraje || null;
-            dane["jezyki"] = <%- jezyki %>.jezyki || null;
-
+            var dane = <%- dane %>;
         </script>
+        <script src="/js/bindingData.js"></script>
         <script src="/js/groupedCountries.js"></script>
         <link href="css/bootstrap.min.css" rel="stylesheet" media="screen">
         <link href="css/jumbotron.css" rel="stylesheet" media="screen">

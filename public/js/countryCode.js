@@ -1,52 +1,21 @@
 $(function(){
 
-	var mojKraj = null
-
-	var mojeJezyki = [];
-
-	// szukam odpowiedniogo kraju
-	for(var i in dane.kraje)
-		if(dane.kraje[i].code === dane["kod"])
-			mojKraj = dane.kraje[i];
-
-	if(mojKraj)
+	if(dane !== "notFound")
 	{
-		$('h1').replaceWith('<h1 class="container myH">Language use in '+mojKraj.name+'</h1>');
-
-		// przyporzadkowanie jezykowi kraju
-		for(var j in dane.jezyki)
-			if(dane.jezyki[j].countrycode === dane["kod"])
-			{
-				mojeJezyki.push(dane.jezyki[j]);
-			}
+		$('h1').replaceWith('<h1 class="container myH">Language use in '+dane.kraj.name+'</h1>');
 
 		// d3js pie chart
-
-		   var w = 300,                        //width
+		var w = 300,                        //width
 	    h = 300,                            //height
 	    r = 100,                            //radius
 	    color = d3.scale.category20c();     //builtin range of colors
 	 	
-	    data = [];
+	    var data = [];
 
-	    var suma = 0, dopelnienie = 100.0;
-
-	    for(var k in mojeJezyki)
+	    for(var k in dane.jezyki)
 	    {
-	    	suma += mojeJezyki[k].percentage;
-	    	data.push({"label": mojeJezyki[k].language, value: mojeJezyki[k].percentage});
+	    	data.push({"label": dane.jezyki[k].language, value: dane.jezyki[k].percentage});
 	    }
-
-	    dopelnienie -= suma;
-
-	    if(dopelnienie > 0.09)
-	    	data.push({"label": "Other", value: dopelnienie});
-
-	    data.sort(function(a,b){
-	    	if(a.value > b.value) return -1;
-	    	if(a.value < b.value) return 1;
-	    	return 0;
-	    })
 
 		piechart(data);
 

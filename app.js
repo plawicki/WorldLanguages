@@ -40,8 +40,17 @@ app.configure('development', function () {
     app.use(express.errorHandler());
 });
 
+// oryginalne dane z bazy
 var kraje = [];
 var jezyki = [];
+
+// dane posortowane dla widokow
+var countriesJezyki = [];
+var groupedCountriesJezyki = [];
+var countryCodeData = {};
+
+var ludnoscSwiata = 0;
+
 
 var aDBparams = { host: 'ec2-54-197-238-242.compute-1.amazonaws.com', user: 'msnyshehxzwduz', password: 'CZZpzn1J7DYG2cX_W3RyzlhSLp', database: 'd2oindia6bcueo',ssl: true };
  
@@ -49,12 +58,15 @@ var client = new pg.Client(aDBparams);
  
 client.connect();
 
+// downlad countries, download languages, setup data for countries, groupedCountries, countryCode
+// kod podzielony na funkcje, aby synchronizowac uruchamianie serwera, najpierw trzeba sciagnac dane i posortowac
+
 client.query("SELECT * FROM country", function(err, result) {
 
     console.log("donwloading countries");
 
     if( result == undefined ){
-        console.log("No results for the query");
+        console.log("Cannot download countries");
     }else{
 
         for(i in result.rows)
@@ -66,16 +78,17 @@ client.query("SELECT * FROM country", function(err, result) {
         
     }
     pg.end();
-    nextQuery();
+    languageQuery();
 });
 
-nextQuery = function(){
+
+languageQuery = function(){
 
     console.log("donwloading languages");
 
     client.query("SELECT * FROM countryLanguage", function(err, result) {
         if( result == undefined ){
-            console.log("No results for the query");
+            console.log("Cannot download languages");
         }else{
 
             for(i in result.rows)
@@ -87,13 +100,167 @@ nextQuery = function(){
             
         }
         pg.end();
-        setUpRouts();
-        client.end();
+        referenceBinding();
     });
+};
 
+referenceBinding = function(){
+
+    // przyporzadkowanie jezykowi kraju
+    for(var j in kraje)
+        for(var i in jezyki)
+            if(jezyki[i].countrycode === kraje[j].code)
+                jezyki[i].country = kraje[j];
+
+    countriesSetting();
 }
 
-setUpRouts = function(){
+countriesSetting = function(){
+
+    // kopiowanie referencji
+    for(var i in jezyki)
+        countriesJezyki.push(jezyki[i]);
+
+    // sortowanie po nazwie kontynentu asc, nazwie kraju asc, % desc
+    countriesJezyki.sort(function(a,b){
+        
+        if(a.country.continent != b.country.continent)
+        {
+            if (a.country.continent < b.country.continent) return -1;
+            if (a.country.continent > b.country.continent) return 1;
+            return 0;
+        }
+
+        if(a.country.name != b.country.name)
+        {
+            if (a.country.name < b.country.name) return -1;
+            if (a.country.name > b.country.name) return 1;
+        }
+
+        if(a.percentage < b.percentage) return 1;
+        if(a.percentage > b.percentage) return -1;
+        return 0;
+    });
+
+    groupedCountriesSetting();
+}
+
+groupedCountriesSetting = function(){
+
+    var pogrupowaneJezyki = {};
+
+    var i=0;
+
+    // grupowanie jezykow ze wzgledu na nazwe, zliczanie ludzi poslugujacych sie jezykiem
+    for(i in jezyki)
+    {
+        var ludnosc = 0;
+
+        ludnosc = Math.floor((jezyki[i].percentage * jezyki[i].country.population) / 100);
+
+        if(i==0)
+        {
+            pogrupowaneJezyki[jezyki[0].language] = { langRef: jezyki[0], count: ludnosc };
+            continue;
+        }
+
+        if(pogrupowaneJezyki[jezyki[i].language])
+        {
+            pogrupowaneJezyki[jezyki[i].language].count += ludnosc;
+        }
+        else
+        {
+            pogrupowaneJezyki[jezyki[i].language] = { langRef: jezyki[i], count: ludnosc };
+        }
+    }
+
+    for(i in kraje)
+        ludnoscSwiata += kraje[i].population;
+
+    // foreach
+    Object.keys(pogrupowaneJezyki).forEach(function(key) {
+
+        groupedCountriesJezyki.push(pogrupowaneJezyki[key]);
+    });
+
+    // sortowanie po ilosci ludzi desc, nazwie jezyka asc
+    groupedCountriesJezyki.sort(function(a,b){
+
+        if(a.count != b.count)
+        {
+            if(a.count < b.count) return 1;
+            if(a.count > b.count) return -1;
+        }
+
+        if(a.langRef.language != b.langRef.language)
+        {
+            if (a.langRef.language < b.langRef.language) return -1;
+            if (a.langRef.language > b.langRef.language) return 1;
+            return 0;
+        }
+    });
+
+
+    countryCodeSetting();
+}
+
+countryCodeSetting = function(){
+
+    var i=0, j=0;
+
+    for(i in kraje)
+        countryCodeData[kraje[i].code] = { kraj: kraje[i], jezyki: [] }
+
+    i=0;
+
+    for(i in kraje)
+        for(j in jezyki)
+        {
+            if(kraje[i].code === jezyki[j].countrycode)
+                    countryCodeData[kraje[i].code].jezyki.push(jezyki[j]);
+        } 
+
+    // foreach
+    Object.keys(countryCodeData).forEach(function(key) {
+        
+        var suma = 0, dopelnienie = 100.0, i = 0;
+
+        for(i in countryCodeData[key].jezyki)
+        {
+            suma += countryCodeData[key].jezyki[i].percentage;
+        }
+
+        dopelnienie -= suma;
+
+        if(dopelnienie > 0.09)
+            countryCodeData[key].jezyki.push({ "language": "Other", "percentage": dopelnienie });
+
+        countryCodeData[key].jezyki.sort(function(a,b){
+            if(a.percentage > b.percentage) return -1;
+            if(a.percentage < b.percentage) return 1;
+            return 0;
+        })
+    });
+
+    removingReferences();
+}
+
+removingReferences = function(){
+
+    // usuwanie referencji z jezykow, aby uniknac dublowania danych przez JSON.stringify
+    for(var i in countriesJezyki)
+        delete jezyki[i].country;
+
+    app.locals.countriesData = JSON.stringify({ kraje: kraje, jezyki: countriesJezyki });
+    app.locals.groupedCountriesData = JSON.stringify({ kraje: kraje, jezyki: groupedCountriesJezyki, ludnoscSwiata: ludnoscSwiata });
+    app.locals.countryCodeData = countryCodeData;
+
+    runServer();
+}
+
+runServer = function(){
+
+    client.end();
 
     console.log("setting up routes");
 
@@ -105,5 +272,4 @@ setUpRouts = function(){
     http.createServer(app).listen(app.get('port'), function () {
         console.log("Serwer nasłuchuje na porcie " + app.get('port'));
     });
-
 }
