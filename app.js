@@ -40,6 +40,10 @@ app.configure('development', function () {
     app.use(express.errorHandler());
 });
 
+// dzialanie
+// laczenie z baza, sciaganie countries, sciaganie languages, ustawianie data for countries, groupedCountries, countryCode
+// kod podzielony na funkcje, aby zsynchronizowac uruchamianie serwera, najpierw trzeba sciagnac dane i posortowac
+
 // oryginalne dane z bazy
 var kraje = [];
 var jezyki = [];
@@ -56,31 +60,42 @@ var aDBparams = { host: 'ec2-54-197-238-242.compute-1.amazonaws.com', user: 'msn
  
 var client = new pg.Client(aDBparams);
  
-client.connect();
 
-// downlad countries, download languages, setup data for countries, groupedCountries, countryCode
-// kod podzielony na funkcje, aby synchronizowac uruchamianie serwera, najpierw trzeba sciagnac dane i posortowac
-
-client.query("SELECT code, name, continent, population FROM country", function(err, result) {
-
-    console.log("donwloading countries");
-
-    if( result == undefined ){
-        console.log("Cannot download countries");
-    }else{
-
-        for(i in result.rows)
-        {
-            kraje[i] = result.rows[i];
-        }
-
-        app.set('kraje', { kraje: kraje });
-        
+client.connect(function(err){
+    if(err)
+    {
+        throw new Error("Cannot connect to database");
     }
-    pg.end();
-    languageQuery();
+    else
+    {
+        countriesQuery();
+    }
 });
 
+
+
+countriesQuery = function(){
+
+    client.query("SELECT code, name, continent, population FROM country", function(err, result) {
+
+        console.log("donwloading countries");
+
+        if( result == undefined ){
+            throw new Error("Cannot download countries");
+        }else{
+
+            for(i in result.rows)
+            {
+                kraje[i] = result.rows[i];
+            }
+
+            app.set('kraje', { kraje: kraje });
+            
+        }
+        pg.end();
+        languageQuery();
+    });
+}
 
 languageQuery = function(){
 
@@ -88,7 +103,7 @@ languageQuery = function(){
 
     client.query("SELECT * FROM countryLanguage", function(err, result) {
         if( result == undefined ){
-            console.log("Cannot download languages");
+            throw new Error("Cannot download languages");
         }else{
 
             for(i in result.rows)

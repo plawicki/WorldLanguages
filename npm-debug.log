@@ -1,7 +1,7 @@
 0 info it worked if it ends with ok
-1 verbose cli [ '/usr/bin/node', '/usr/bin/npm', 'start' ]
-2 info using npm@1.4.3
-3 info using node@v0.10.26
+1 verbose cli [ 'node', '/usr/bin/npm', 'start' ]
+2 info using npm@1.4.10
+3 info using node@v0.10.28
 4 verbose node symlink /usr/bin/node
 5 verbose run-script [ 'prestart', 'start', 'poststart' ]
 6 info prestart WorldLanguages@0.0.1
@@ -18,10 +18,10 @@
 11 error You can get their info via:
 11 error     npm owner ls WorldLanguages
 11 error There is likely additional logging output above.
-12 error System Linux 3.2.0-31-generic
-13 error command "/usr/bin/node" "/usr/bin/npm" "start"
-14 error cwd /home/patryk/Sites/WorldLanguages
-15 error node -v v0.10.26
-16 error npm -v 1.4.3
+12 error System Linux 3.13.0-24-generic
+13 error command "node" "/usr/bin/npm" "start"
+14 error cwd /home/patryk/Pulpit/WorldLanguages
+15 error node -v v0.10.28
+16 error npm -v 1.4.10
 17 error code ELIFECYCLE
 18 verbose exit [ 1, true ]
