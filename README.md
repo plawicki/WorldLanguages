@@ -10,4 +10,4 @@ to run:
 
 demo:
 
-[heroku](http://http://world-languages.herokuapp.com/)
+[heroku](http://world-languages.herokuapp.com/)
